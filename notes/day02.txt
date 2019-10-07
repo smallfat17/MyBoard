@@ -1,0 +1,15 @@
+	Django urls模式
+		url(r'^questions/(?P<pk>\d+)$', view, name)
+		匹配诸如 /questions/1/  /questions/10/
+		捕获的数据是{"pk": 1}			{"pk": 10}
+		
+		url(r'^articles/(?P<year>[0-9]{4})/$')
+			/articles/2014/
+			{'year': 2014}
+	
+	django-widget-tweaks
+		现在html文件中
+			{% load widget-tweaks %}
+		表单中的field
+		{% render_field field class="form-control" %}
+		render_field第一个参数field为表单的属性，class赋值为field赋值

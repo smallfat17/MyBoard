@@ -1,0 +1,17 @@
+body{
+    /*background-image: url("../img/signup-backgroud.png");*/
+    background-image: url("../img/christmas-dark.png");
+}
+
+.logo{
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+.logo a{
+    color: rgba(171, 171, 171, 1);
+}
+
+.logo a:hover,
+.logo a:active{
+    text-decoration: none;
+}

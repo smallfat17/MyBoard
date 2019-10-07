@@ -1,0 +1,6 @@
+一些测试方法
+	self.assertEquals(ele1, ele2)
+	self.assertTrue(ele)/self.assertFalse(ele)
+	self.assertIsInstance(obj, cls)
+	self.assertContains(response, ele [,nums])
+jquery的导入一定要在bootstrap前，否则报错

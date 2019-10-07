@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% load gravatar %}
+
+{% block title %}
+    {{ topic.subject }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Boards</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'boards:board_topics' topic.board.id %}">
+        {{ topic.board.name }}
+    </a></li>
+    <li class="breadcrumb-item active">{{ topic.subject }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="mb-4">
+        <a href="{% url 'boards:topic_reply' topic.board.pk topic.pk %}" class="btn btn-primary" role="button">Reply</a>
+    </div>
+
+    {% for post in posts %}
+        <div class="card mb-2 {% if forloop.first %}border-dark{% endif %} ">
+        {% if forloop.first %}
+            <div class="card-header text-white bg-dark py-2 px-3">{{ topic.subject }}</div>
+        {% endif %}
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-2">
+{#                        <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgLTI3IDI0IDEwMCAxMDAiIGhlaWdodD0iMTAwcHgiIGlkPSJtYWxlMyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSItMjcgMjQgMTAwIDEwMCIgd2lkdGg9IjEwMHB4IiB4bWw6c3BhY2U9InByZXNlcnZlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PGc+PGc+PGNpcmNsZSBjeD0iMjMiIGN5PSI3NCIgZmlsbD0iI0Y1RUVFNSIgcj0iNTAiLz48Zz48ZGVmcz48Y2lyY2xlIGN4PSIyMyIgY3k9Ijc0IiBpZD0iU1ZHSURfMV8iIHI9IjUwIi8+PC9kZWZzPjxjbGlwUGF0aCBpZD0iU1ZHSURfMl8iPjx1c2Ugb3ZlcmZsb3c9InZpc2libGUiIHhsaW5rOmhyZWY9IiNTVkdJRF8xXyIvPjwvY2xpcFBhdGg+PHBhdGggY2xpcC1wYXRoPSJ1cmwoI1NWR0lEXzJfKSIgZD0iTTM4LDk5LjlsMjcuOSw3LjdjMy4yLDEuMSw1LjcsMy41LDcuMSw2LjZ2OS44SC0yN3YtOS44ICAgICAgYzEuMy0zLjEsMy45LTUuNSw3LjEtNi42TDgsOTkuOVY4NWgzMFY5OS45eiIgZmlsbD0iI0U2QzE5QyIvPjxnIGNsaXAtcGF0aD0idXJsKCNTVkdJRF8yXykiPjxkZWZzPjxwYXRoIGQ9Ik0zOCw5OS45bDI3LjksNy43YzMuMiwxLjEsNS43LDMuNSw3LjEsNi42djkuOEgtMjd2LTkuOGMxLjMtMy4xLDMuOS01LjUsNy4xLTYuNkw4LDk5LjlWODVoMzBWOTkuOXoiIGlkPSJTVkdJRF8zXyIvPjwvZGVmcz48Y2xpcFBhdGggaWQ9IlNWR0lEXzRfIj48dXNlIG92ZXJmbG93PSJ2aXNpYmxlIiB4bGluazpocmVmPSIjU1ZHSURfM18iLz48L2NsaXBQYXRoPjxwYXRoIGNsaXAtcGF0aD0idXJsKCNTVkdJRF80XykiIGQ9Ik0tMjcsODJINzN2NDJILTI3VjgyeiBNMjMsMTEyYzExLDAsMjAtNi4zLDIwLTE0cy05LTE0LTIwLTE0UzMsOTAuMywzLDk4ICAgICAgIFMxMiwxMTIsMjMsMTEyeiIgZmlsbD0iI0U2QTQyMiIvPjxwYXRoIGNsaXAtcGF0aD0idXJsKCNTVkdJRF80XykiIGQ9Ik0yMywxMDJjLTEuNywwLTMuOS0wLjQtNS40LTEuMWMtMS43LTAuOS04LTYuMS0xMC4yLTguMyAgICAgICBjLTIuOC0zLTQuMi02LjgtNC42LTEzLjNjLTAuNC02LjUtMi4xLTI5LjctMi4xLTM1YzAtNy41LDUuNy0xOS4yLDIyLjEtMTkuMmwwLjEsMGwwLDBsMCwwbDAuMSwwICAgICAgIGMxNi41LDAuMSwyMi4xLDExLjcsMjIuMSwxOS4yYzAsNS4zLTEuNywyOC41LTIuMSwzNWMtMC40LDYuNS0xLjgsMTAuMi00LjYsMTMuM2MtMi4xLDIuMy04LjQsNy40LTEwLjIsOC4zICAgICAgIEMyNi45LDEwMS42LDI0LjcsMTAyLDIzLDEwMkwyMywxMDJ6IiBmaWxsPSIjRDRCMDhDIi8+PHBhdGggY2xpcC1wYXRoPSJ1cmwoI1NWR0lEXzRfKSIgZD0iTTIzLDgyQzEwLjMsODIsMCw4OS40LDAsOTguNVMxMC4zLDExNSwyMywxMTVzMjMtNy40LDIzLTE2LjUgICAgICAgUzM1LjcsODIsMjMsODJ6IE0yMywxMTFjLTEwLjUsMC0xOS02LTE5LTEzLjVTMTIuNSw4NCwyMyw4NHMxOSw2LDE5LDEzLjVTMzMuNSwxMTEsMjMsMTExeiIgZmlsbD0iI0Q5OEMyMSIvPjwvZz48L2c+PHBhdGggZD0iTTIzLDk4Yy0xLjUsMC0zLjUtMC4zLTQuOC0wLjljLTEuNi0wLjctNy4yLTQuNi05LjEtNi4zYy0yLjUtMi4zLTMuOC01LjEtNC4yLTEwUzMsNTguNSwzLDU0LjUgICAgIEMzLDQ4LjgsOC4xLDQwLDIzLDQwbDAsMGwwLDBsMCwwbDAsMEMzNy45LDQwLDQzLDQ4LjgsNDMsNTQuNWMwLDQtMS41LDIxLjUtMS45LDI2LjRzLTEuNiw3LjctNC4yLDEwYy0xLjksMS43LTcuNiw1LjYtOS4xLDYuMyAgICAgQzI2LjUsOTcuNywyNC41LDk4LDIzLDk4TDIzLDk4eiIgZmlsbD0iI0YyQ0VBNSIvPjxwYXRoIGQ9Ik0zMCw4NS41Yy0xLjksMi01LjIsMy04LjEsMi40Yy0yLjctMC42LTQuNy0yLTUuNy00LjNMMzAsODUuNXoiIGZpbGw9IiNBMzcwNUYiLz48cGF0aCBkPSJNMzAsODUuNWMtMS45LDItNS4yLDMtOC4xLDIuNCAgICAgYy0yLjctMC42LTQuNy0yLTUuNy00LjNMMzAsODUuNXoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0EzNzA1RiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGc+PGRlZnM+PHJlY3QgaGVpZ2h0PSI1IiBpZD0iU1ZHSURfNV8iIHdpZHRoPSIzMSIgeD0iNyIgeT0iNjUiLz48L2RlZnM+PGNsaXBQYXRoIGlkPSJTVkdJRF82XyI+PHVzZSBvdmVyZmxvdz0idmlzaWJsZSIgeGxpbms6aHJlZj0iI1NWR0lEXzVfIi8+PC9jbGlwUGF0aD48Y2lyY2xlIGNsaXAtcGF0aD0idXJsKCNTVkdJRF82XykiIGN4PSIzMiIgY3k9IjY5IiBmaWxsPSIjMjkxRjIxIiByPSIyIi8+PGNpcmNsZSBjbGlwLXBhdGg9InVybCgjU1ZHSURfNl8pIiBjeD0iMTQiIGN5PSI2OSIgZmlsbD0iIzI5MUYyMSIgcj0iMiIvPjwvZz48cGF0aCBkPSJNOCw2NmMwLDAsMS4xLTMsNi4xLTNjMy40LDAsNS40LDEuNSw2LjQsMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjQ0M5ODcyIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMzguMSw2NmMwLDAtMS4xLTMtNi4xLTNjLTQuOCwwLTcsMy03LDVjMCwxLjksMCw5LDAsOSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjQkI4NjYwIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNNDEuOCw3Mi4yYzAsMCwwLjgtNi4zLDMuNy03LjJjMC40LTEuOCwxLjUtNywxLjUtOS45cy0wLjMtNS43LTEuOS04LjFjLTEuOC0yLjYtNS42LTQuMS03LjYtNC4xICAgICBjLTIuMywxLjQtNy43LDQuNi05LjQsNi41Yy0wLjksMSwwLjQsMS44LDAuNCwxLjhzMS4yLTAuNSwxLjctMC42YzIuNS0wLjcsOC0xLjIsOS43LDEuM0M0Miw1NC45LDQyLDYzLjcsNDIsNjUgICAgIEM0Miw2Ni4yLDQxLjgsNzIuMiw0MS44LDcyLjJ6IiBmaWxsPSIjNDUyMjI4Ii8+PHBhdGggZD0iTTAuNSw2NWMyLjksMSwzLjcsNy4yLDMuNyw3LjJTNCw2Ni4yLDQsNjVjMC0xLjYsMC4yLTkuMSwzLjQtMTIuN2MzLjYtNCw4LjQtNS4zLDExLjEtMy41ICAgICBjMS40LDAuOSw2LjEsNS41LDExLjEsMS43YzMtMi4zLDguNS03LjUsOC41LTcuNXMtMi45LTguOS0xNi4xLTcuOWMtNS42LDAuNS0xMS44LTAuOS0xMS44LTAuOXMtMC4xLDIuNSwwLjksMy44ICAgICBDMi44LDQwLjQsMC4xLDQ2LjQtMC43LDUxYy0wLjIsMC45LTAuMywxLjgtMC4zLDIuN2MwLDAuNSwwLDEsMCwxLjRDLTEsNTgsMC4xLDYzLjEsMC41LDY1eiIgZmlsbD0iIzZCMzYzRSIvPjwvZz48L2c+PC9zdmc+" alt="{{ post.created_by.username }}" class="w-100">#}
+{#                        <img src="{% static 'img/avator.svg' %}" alt="{{ post.created_by.username }}" class="w-100">#}
+                        <img src="{{ post.created_by|gravatar }}" alt="{{ post.created_by.username }}" class="w-100 rounded">
+
+                        <small>Posts: {{ post.created_by.posts.count }}</small>
+                    </div>
+                    <div class="col-10">
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong class="text-muted">{{ post.created_by.username }}</strong>
+                            </div>
+                            <div class="col-6 text-right">
+                                <small class="text-muted">{{ post.created_at }}</small>
+                            </div>
+                        </div>
+                        {{ post.get_message_as_markdown }}
+                        {% if post.created_by == user %}
+                            <div class="mt-3">
+                                <a href="{% url 'boards:edit_post' post.topic.board.pk post.topic.pk post.pk %}" class="btn btn-primary btn-sm" role="button">Edit</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="text-center">
+        {% include 'includes/pagtination.html' %}
+    </div>
+
+{% endblock %}

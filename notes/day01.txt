@@ -1,0 +1,4 @@
+	Field
+		DateTimeField(auto_created=True, auto_now_add=True)  #添加当前时间， 更新为当前时间，设置为True
+		ForeignKey(User, related_name='topics', on_delete=models.CASCADE)	#related_name将User.topic_set转为User.topics
+						#related_name='+'  意味着忽略该关系
